@@ -3,14 +3,19 @@ from .models import Anime
 
 
 class AnimeSerializer(serializers.ModelSerializer):
+    # first way-----------------
     def start_r(value):
         if value[0].lower() == 'x':
             raise serializers.ValidationError("there is no name from x in Nepal")
     name = serializers.CharField(validators=[start_r])
+    
+    # ------------first way-----------------
 
     class Meta:
         model = Anime
         fields = ('id', 'name', 'age', 'address')
+    
+    # ------------second way-----------------
 
     def validate_name(self, value):
         if value.lower() == "rayon": 
@@ -21,7 +26,10 @@ class AnimeSerializer(serializers.ModelSerializer):
         if value < 18: 
             raise serializers.ValidationError("Not for minor .") 
         return value
-
+    # ------------second way-----------------
+    
+    
+    # ------------third way-----------------
     def validate(self,data):
         nm = data.get('name')
         age = data.get('age')
